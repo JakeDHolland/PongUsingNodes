@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<h1>Welcome to super glatic pong mark 2 reloaded revenge of the red ball things 7!</h1> 
+			<link href="style.css" rel="styleSheet" type="text/css">
+	</head>
+<body>
+
+	<div id="boxes">
+		<b>--------------------------- Chatbox -------------------------</b>
+		<ul id="messages"></ul>
+	</div>
+	
+	<canvas id="gameCanvas" width="800" height="600"></canvas>
+	
+		
+	<div id="boxes">
+	<b> -------------------------- Info Sheet -----------------------</b>
+	<br>
+	<b>How to play</b>
+		<p>Enter in your name and when the other player is ready click on the screen to play, first to three wins!</p>
+			<br>
+				<b>Controls</b>
+					<p>To control the paddle simple move the mouse within the gamescreen aka the balck box.</p>
+					<br>
+					<p>By clicking on the chat box at the bottom of the screen after starting the game you will be able to chat and play at the same time by pressing enter after writing a message.</p>
+						<br>
+							<b>About</b>
+								<p>This pong game is made using:</p>
+								<div id="bulletPoints">
+								<ul>
+									<li>Socket.io</li>
+									<li>Html5</li>
+									<li>Jquery</li>
+									<li>Css</li>
+									<li>Javascript</li>
+								</ul>
+								</div>
+								<p>This game was made for my "SOFTT352 CLIENT-SIDE WEB SCRIPTING".</p>
+									<br><br><br><br><br><br><br><br><br><br><br>
+										<b> ----------MADE BY JAKE HOLLAND 2k17--------</b>
+								
+								
+						
+	</div>
+	
+		<form action="">
+			<input id="messageBox" autocomplete="off" /><button>Send</button>
+		</form>
+	
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="gameCode.js"></script>
+    <script>
+		var socket = io();
+		var name = prompt("Please enter your name", "");
+		socket.emit('xConnected', name); 
+		$('form').submit(function(){ //send button pressed
+		var box = $('#messageBox').val();
+		console.log(box);
+		var data = {
+			name: name,
+			message: box
+		}
+        socket.emit('chat message', data);
+        $('#messageBox').val('');
+        return false;
+    });
+      socket.on('chatMessage', function(msg){
+		//console.log(msg.id ,'recieved:', msg.message); //shows the message being sent in the cmd
+        $('#messages').append($('<b>').text(msg.name));
+		$('#messages').append($('<ul>').text(msg.message));
+
+      });
+    </script>
+  </body>
+</html>
